@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Tuệ Tĩnh",
+    "slug": "healthcare-new",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/image/appIcon.png",
+    "scheme": "healthcarenew",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.liuynnim.healthcarenew"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "AUTH": "http://172.28.26.203:8080",
+      "FACE": "http://172.28.26.203:8080",
+      "FOOD": "http://172.28.26.203:8080",
+      "AGENT": "http://172.28.26.203:8080",
+      "API_GETWAY": "http://172.28.26.203:8080",
+      // Previous configs (backup):
+      // "AUTH": "http://10.0.2.2:8080",  // Android Emulator localhost
+      // "AUTH": "http://localhost:8080",  // iOS Simulator / Web
+      // "GOOGLE_LOGIN_URL": "http://10.0.2.2:8081/api/auth/login/google",
+      // "GOOGLE_WEB_CLIENT_ID": "48321943424-l52bieggvd5crfg6bstngllr42pl97ku.apps.googleusercontent.com"
+    }
+  }
+}

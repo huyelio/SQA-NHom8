@@ -1,0 +1,12 @@
+{
+  "age": 22,
+  "gender": "male",
+  "height_cm": 170,
+  "weight_kg": 67,
+  "experience_level": "beginner",
+  "goal": "hypertrophy",
+  "available_days_per_week": 4,
+  "session_duration_minutes": 60,
+  "injuries": [],
+  "calorie_target": 2524
+}

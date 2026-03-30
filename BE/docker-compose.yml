@@ -1,0 +1,105 @@
+services:
+  # ================= DATABASE (QUẢ TIM CỦA HỆ THỐNG) =================
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: tuetinh_db
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p123456"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+    networks:
+      - backend-net
+  # ================= API GATEWAY =================
+  gateway:
+    build: ./gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - drug-service
+      - skin-service
+      - food-service
+      - chatbot-service
+    environment:
+      SERVER_PORT: 8080
+    networks:
+      - backend-net
+
+  # ================= SPRING BOOT SERVICE =================
+  drug-service:
+    build: ./AuthService
+    container_name: drug-service
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      SPRING_PROFILES_ACTIVE: default
+    networks:
+      - backend-net
+
+  # ================= FLASK SKIN AI =================
+  skin-service:
+    build: ./Skin_Analyzer_Microservices
+    container_name: skin-service
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./Skin_Analyzer_Microservices/.env
+    environment:
+      MICRO_PORT: 5001
+      MICRO_HOST: 0.0.0.0
+      MICRO_DEBUG: "true"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+  # ================= FLASK FOOD CALO =================
+  food-service:
+    build: ./Food_Detection_Microservices
+    container_name: food-service
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./Food_Detection_Microservices/.env
+    environment:
+      MICRO_PORT: 5002
+      MICRO_HOST: 0.0.0.0
+      MICRO_DEBUG: "true"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+  # ================= FLASK CHATBOT =================
+  chatbot-service:
+    build: ./Fitness_Coach_AI
+    container_name: chatbot-service
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./Fitness_Coach_AI/.env
+    environment:
+      FLASK_PORT: 5003
+      MICRO_DEBUG: "true"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - backend-net
+
+networks:
+  backend-net:
+    driver: bridge
